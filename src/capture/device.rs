@@ -94,7 +94,7 @@ impl Device {
         }
 
         v4l2_fmt.index = 0;
-        v4l2_fmt.type_ = v4l2_buf_type_V4L2_BUF_TYPE_VIDEO_CAPTURE;
+        v4l2_fmt.type_ = v4l2_buf_type_V4L2_BUF_TYPE_VIDEO_OUTPUT;
 
         let mut ret: io::Result<()>;
 
@@ -147,7 +147,7 @@ impl Device {
     pub fn format(&self) -> io::Result<capture::Format> {
         unsafe {
             let mut v4l2_fmt: v4l2_format = mem::zeroed();
-            v4l2_fmt.type_ = v4l2_buf_type_V4L2_BUF_TYPE_VIDEO_CAPTURE;
+            v4l2_fmt.type_ = v4l2_buf_type_V4L2_BUF_TYPE_VIDEO_OUTPUT;
             v4l2::ioctl(
                 self.handle.fd(),
                 v4l2::vidioc::VIDIOC_G_FMT,
@@ -192,7 +192,7 @@ impl Device {
     pub fn set_format(&mut self, fmt: &capture::Format) -> io::Result<capture::Format> {
         unsafe {
             let mut v4l2_fmt: v4l2_format = mem::zeroed();
-            v4l2_fmt.type_ = v4l2_buf_type_V4L2_BUF_TYPE_VIDEO_CAPTURE;
+            v4l2_fmt.type_ = v4l2_buf_type_V4L2_BUF_TYPE_VIDEO_OUTPUT;
             v4l2_fmt.fmt.pix = (*fmt).into();
             v4l2::ioctl(
                 self.handle.fd(),
@@ -221,7 +221,7 @@ impl Device {
     pub fn params(&self) -> io::Result<capture::Parameters> {
         unsafe {
             let mut v4l2_params: v4l2_streamparm = mem::zeroed();
-            v4l2_params.type_ = v4l2_buf_type_V4L2_BUF_TYPE_VIDEO_CAPTURE;
+            v4l2_params.type_ = v4l2_buf_type_V4L2_BUF_TYPE_VIDEO_OUTPUT;
             v4l2::ioctl(
                 self.handle.fd(),
                 v4l2::vidioc::VIDIOC_G_PARM,
@@ -261,7 +261,7 @@ impl Device {
     pub fn set_params(&mut self, params: &capture::Parameters) -> io::Result<capture::Parameters> {
         unsafe {
             let mut v4l2_params: v4l2_streamparm = mem::zeroed();
-            v4l2_params.type_ = v4l2_buf_type_V4L2_BUF_TYPE_VIDEO_CAPTURE;
+            v4l2_params.type_ = v4l2_buf_type_V4L2_BUF_TYPE_VIDEO_OUTPUT;
             v4l2_params.parm.capture = (*params).into();
             v4l2::ioctl(
                 self.handle.fd(),
